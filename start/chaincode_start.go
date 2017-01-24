@@ -32,6 +32,7 @@ type SimpleChaincode struct {
 // ============================================================================================================================
 func main() {
 	err := shim.Start(new(SimpleChaincode))
+	fmt.Printf("Starting Main Chain")
 	if err != nil {
 		fmt.Printf("Error starting Simple chaincode: %s", err)
 	}
@@ -43,7 +44,7 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
         return nil, errors.New("Incorrect number of arguments. Expecting 1")
     }
 
-    err := stub.PutState("hello_world", []byte(args[0]))
+    err := stub.PutState("some_bank_id", []byte(args[0]))
     if err != nil {
         return nil, err
     }
@@ -59,6 +60,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
     if function == "init" {
         return t.Init(stub, "init", args)
     } else if function == "write" {
+		fmt.Println("It is the write function")
         return t.write(stub, args)
     }
     fmt.Println("invoke did not find func: " + function)
@@ -69,7 +71,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
     var name, value string
     var err error
-    fmt.Println("running write()")
+    fmt.Println("running write(), right?")
 
     if len(args) != 2 {
         return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the variable and value to set")
@@ -77,6 +79,7 @@ func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string)
 
     name = args[0]                            //rename for fun
     value = args[1]
+	fmt.Println("Puttin' on the state")
     err = stub.PutState(name, []byte(value))  //write the variable into the chaincode state
     if err != nil {
         return nil, err
@@ -107,6 +110,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
     }
 
     name = args[0]
+	fmt.Println("Getting state for key: " + name)
     valAsbytes, err := stub.GetState(name)
     if err != nil {
         jsonResp = "{\"Error\":\"Failed to get state for " + name + "\"}"
