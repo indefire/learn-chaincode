@@ -68,7 +68,7 @@ fmt.Printf("invoke called with checked in")
 // Query is our entry point for queries
 func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Println("query is running " + function)
-
+fmt.Printf("invoke called with checked in")
 	// Handle different functions
 	if function == "read" { //read a variable
 		return t.read(stub, args)
