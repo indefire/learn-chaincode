@@ -28,7 +28,6 @@ type SimpleChaincode struct {
 }
 
 func main() {
-fmt.Printf("Reading from checked in main")
 	err := shim.Start(new(SimpleChaincode))
 	if err != nil {
 		fmt.Printf("Error starting Simple chaincode: %s", err)
@@ -37,7 +36,6 @@ fmt.Printf("Reading from checked in main")
 
 // Init resets all the things
 func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
-fmt.Printf("Init called with checked in")
 	if len(args) != 1 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
@@ -53,7 +51,7 @@ fmt.Printf("Init called with checked in")
 // Invoke isur entry point to invoke a chaincode function
 func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Println("invoke is running " + function)
-fmt.Printf("invoke called with checked in")
+	fmt.Println("invoke is running checked IN")
 	// Handle different functions
 	if function == "init" {
 		return t.Init(stub, "init", args)
@@ -68,7 +66,7 @@ fmt.Printf("invoke called with checked in")
 // Query is our entry point for queries
 func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Println("query is running " + function)
-fmt.Printf("invoke called with checked in")
+	fmt.Println("query is running checked IN")
 	// Handle different functions
 	if function == "read" { //read a variable
 		return t.read(stub, args)
@@ -83,7 +81,7 @@ func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string)
 	var key, value string
 	var err error
 	fmt.Println("running write()")
-
+	fmt.Println("write is running checked IN")
 	if len(args) != 2 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
 	}
