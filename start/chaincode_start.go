@@ -43,7 +43,7 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
     if len(args) != 1 {
         return nil, errors.New("Incorrect number of arguments. Expecting 1")
     }
-
+	fmt.Println("init Checked in code")
     err := stub.PutState("some_bank_id", []byte(args[0]))
     if err != nil {
         return nil, err
@@ -55,7 +55,7 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 // Invoke is our entry point to invoke a chaincode function
 func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
     fmt.Println("invoke is running " + function)
-
+	fmt.Println("Checked in code")
     // Handle different functions
     if function == "init" {
         return t.Init(stub, "init", args)
